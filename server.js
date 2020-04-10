@@ -19,3 +19,14 @@ app.get('/turn', async function(req, res) {
 
 const server = app.listen(process.env.PORT || 3000);
 const {} = gun({ file: 'data', web: server });
+
+var Turn = require('node-turn');
+var turnserver = new Turn({
+  // set options
+  authMech: 'none',
+  debugLevel: 'DEBUG',
+  listeningIps: ['0.0.0.0'],
+  listeningPort: 19302,
+  log: function(a,b){ console.log('TURN-LOG',a,b)}
+});
+turnserver.start();

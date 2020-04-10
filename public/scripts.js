@@ -17,8 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function getICEServers() {
         return [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun.sipgate.net:3478' }
+            { urls: `stun:${location.hostname}:19302`},
+           // { urls: 'stun:stun.l.google.com:19302' },
+           // { urls: 'stun:stun.sipgate.net:3478' }
         ]
     }
 
