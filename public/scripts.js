@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getICEServers() {
         var servers = [
             { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun.sipgate.net:3478' },
-           { urls: `stun:${location.hostname}:80`}
+            { urls: 'stun:stun.sipgate.net:3478' }
+           // { urls:  `stun:${location.hostname}:80`}
         ];
         console.log('self stun',servers);
         return servers;
@@ -33,15 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
       
         var sdp = undefined;
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-          if (stream) sdp = {audio: true, video: true}
+          if (navigator.mediaDevices) sdp = {audio: true, video: true}
         } catch(e){
-          const stream = false;
+          console.log('no media devices')
         }
       
         const root = Gun({
             peers: [`${location.origin}/gun`],
-            rtc: { iceServers: await getICEServers(), sdp: sdp },
+            rtc: { iceServers: await getICEServers() },
         });
 
         let sendPosition = () => {};
