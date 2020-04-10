@@ -31,11 +31,43 @@ document.addEventListener('DOMContentLoaded', () => {
             [user]: { x: 0, y: 0, el: createPoint(user) },
         };
       
-        var sdp = undefined;
         try {
-          if (navigator.mediaDevices) sdp = {audio: true, video: true}
+           var streaming = false;
+           var video = document.getElementById('video');
+           navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+            })
+            .catch(function(err) {
+                console.log("An error occurred: " + err);
+            });
+            video.addEventListener('canplay', function(ev){
+            if (!streaming) {
+              var width = 400;
+              var height = video.videoHeight / (video.videoWidth/width);
+              video.setAttribute('width', width);
+              video.setAttribute('height', height);
+              streaming = true;
+            }
+            }, false);
+          
+            var startbutton = document.getElementById('startbutton');
+            startbutton.addEventListener('click', function(ev){
+              ev.preventDefault();
+              var context = canvas.getContext('2d');
+              if (width && height) {
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);
+
+                var data = canvas.toDataURL('image/png');
+                photo.setAttribute('src', data);
+            }, false);
+
+          
         } catch(e){
-          console.log('no media devices')
+          console.log(e)
         }
       
         const root = Gun({
@@ -44,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         let sendPosition = () => {};
+        let sendFrame = () => {};
 
         if (localStorage.getItem('dam')) {
             const dam = root.back('opt.mesh');
@@ -54,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sendPosition = (x, y) => {
                 dam.say({ dam: 'GameData', name: user, x, y });
             };
+            sendFrame = (x) => 
         } else {
             root.on('in', function (msg) {
                 if (msg.cgx) {
