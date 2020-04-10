@@ -61,8 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 canvas.width = video.width;
                 canvas.height = video.height;
                 context.drawImage(video, 0, 0, video.width, video.height);
-                var data = canvas.toDataURL('image/png');
-                sendFrame(data);
+                //var data = canvas.toDataURL('image/png');
+                var sdatas = canvas.toDataURL();
+                sendFrame(sdatas);
               }
             })
 
@@ -89,12 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { image } = msg;
                 console.log('got image!');
                 var canvas = document.getElementById('canvas');
-                canvas.drawImage(image, 0,0);
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(image, 0,0);
             };
             sendPosition = (x, y) => {
                 dam.say({ dam: 'GameData', name: user, x, y });
             };
             sendFrame = (image) => {
+                console.log('sending frame!')
                 damn.say({ dam: 'Image', image })
             }
         } else {
@@ -103,12 +106,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     const { name, x, y } = msg.cgx;
                     updateData(name, x, y);
                 }
+                if (msg.image) {
+                    const { image } = msg.image;
+                    console.log('got x-image!');
+                    var canvas = document.getElementById('canvas');
+                    var ctx = canvas.getContext('2d');
+                    ctx.putImageData(image, 0,0);
+                }
                 this.to.next(msg);
             });
             sendPosition = (x, y) => {
                 const id = Math.random().toString().slice(2);
                 root.on( 'out', { '#': id, cgx: { name: user, x, y }});
             };
+            sendFrame = (image) => {
+                console.log('sending frame!')
+                const id = Math.random().toString().slice(2);
+                root.on( 'out', { '#': id, image: { image}});
+            }
         }
 
         function updateData(name, x, y) {
