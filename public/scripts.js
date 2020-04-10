@@ -52,18 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             }, false);
           
+            var canvas = document.getElementById('canvas');
             var startbutton = document.getElementById('startbutton');
             startbutton.addEventListener('click', function(ev){
               ev.preventDefault();
               var context = canvas.getContext('2d');
-              if (width && height) {
-                canvas.width = width;
-                canvas.height = height;
-                context.drawImage(video, 0, 0, width, height);
-
+              if (context) {
+                canvas.width = video.width;
+                canvas.height = video.height;
+                context.drawImage(video, 0, 0, video.width, video.height);
                 var data = canvas.toDataURL('image/png');
-                photo.setAttribute('src', data);
-            }, false);
+                sendFrame(data);
+              }
+            })
 
           
         } catch(e){
@@ -84,10 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { name, x, y } = msg;
                 updateData(name, x, y);
             };
+             dam.hear.Image = (msg, peer) => {
+                const { image } = msg;
+                console.log('got image!');
+                var canvas = document.getElementById('canvas');
+                canvas.drawImage(image, 0,0);
+            };
             sendPosition = (x, y) => {
                 dam.say({ dam: 'GameData', name: user, x, y });
             };
-            sendFrame = (x) => 
+            sendFrame = (image) => {
+                damn.say({ dam: 'Image', image })
+            }
         } else {
             root.on('in', function (msg) {
                 if (msg.cgx) {
