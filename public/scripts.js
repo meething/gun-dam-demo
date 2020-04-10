@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             sendFrame = (image) => {
                 console.log('sending frame!')
-                damn.say({ dam: 'Image', image })
+                dam.say({ dam: 'Image', image })
             }
         } else {
             root.on('in', function (msg) {
@@ -110,8 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const { image } = msg.image;
                     console.log('got x-image!');
                     var canvas = document.getElementById('canvas');
-                    var ctx = canvas.getContext('2d');
-                    ctx.putImageData(image, 0,0);
+                    var img=new Image();
+                    img.src=image;
+                    img.onload = function(){
+                      var ctx = canvas.getContext('2d');
+                      ctx.drawImage(img,0,0);
+                    }
+                    
                 }
                 this.to.next(msg);
             });
