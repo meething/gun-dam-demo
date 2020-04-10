@@ -16,12 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function getICEServers() {
-        const turnServers = await fetch(`${location.origin}/turn`)
-            .then(res => res.json());
         return [
             { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun.sipgate.net:3478' },
-            turnServers.iceServers,
+            { urls: 'stun:stun.sipgate.net:3478' }
         ]
     }
 
@@ -99,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         elPageGame.addEventListener('mousemove', e => {
             data[user].x = e.x;
             data[user].y = e.y;
+            //console.log('sending mouse',e.x,e.y);
             sendPosition(e.x, e.y);
         });
     }
