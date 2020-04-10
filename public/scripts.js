@@ -16,11 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function getICEServers() {
-        return [
-            { urls: `stun:${location.hostname}:19302`},
+        var servers = [
+            { urls: `stun:${location.hostname}:3000`}
            // { urls: 'stun:stun.l.google.com:19302' },
            // { urls: 'stun:stun.sipgate.net:3478' }
-        ]
+        ];
+        console.log('self stun',servers);
+        return servers;
     }
 
     async function loadGame() {
