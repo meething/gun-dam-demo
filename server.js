@@ -17,6 +17,7 @@ var turnserver = new Turn({
   debugLevel: 'DEBUG',
   //listeningIps: ['0.0.0.0'],
   listeningPort: 3000,
-  log: function(a,b){ console.log('TURN-LOG',a,b||'')}
+  log: function(a,b){ console.log('TURN-LOG',a,b||'')},
+  debug: function(a,b){ console.log('TURN-DEBUG',a,b||'')}
 });
 turnserver.start();
