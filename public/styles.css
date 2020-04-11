@@ -41,3 +41,18 @@ label {
     line-height: 1;
     margin: 15px 0 0 15px;
 }
+
+.local-video {
+    height: 80px;
+    width: 100px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+.camera {
+    height: 80px;
+    width: 100px;
+    position: absolute;
+    left: 100px;
+  }
