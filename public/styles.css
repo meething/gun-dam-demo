@@ -45,14 +45,21 @@ label {
 .local-video {
     height: 80px;
     width: 100px;
-    position: absolute;
-    top: 0px;
+    position: fixed;
+    top: 20px;
+    left: 0px;
+  }
+
+.remote-video {
+    height: 80px;
+    width: 100px;
+    position: fixed;
+    top: 100px;
     left: 0px;
   }
 
 .camera {
+    position: relative
     height: 80px;
     width: 100px;
-    position: absolute;
-    left: 100px;
   }
