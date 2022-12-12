@@ -10,7 +10,7 @@
   "author": "Thanish Nizam <mnmtanish@gmail.com> (https://thanish.me/)",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "gun": "^0.2020.401",
     "node-fetch": "^2.6.0",
     "node-turn": "^0.0.4"
